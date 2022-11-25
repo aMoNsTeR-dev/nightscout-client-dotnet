@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RunSettings>
 	<TestRunParameters>
-		<Parameter name="nightscoutUrl" value="" />
-		<Parameter name="tokenInUrl" value="" />
+		<Parameter name="nightscoutUrl" value="https://androck.k.vu" />
+		<Parameter name="tokenInUrl" value="ohmyposh-0a6cfb7ef9550ed6" />
 	</TestRunParameters>
 </RunSettings>
