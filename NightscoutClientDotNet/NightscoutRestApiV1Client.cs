@@ -30,7 +30,14 @@ namespace NightscoutClientDotNet
 
         public async Task<IEnumerable<Entry>> GetEntriesAsync(string query, int count)
         {
-            RestResponse<IEnumerable<Entry>> response = await _client.ExecuteAsync<IEnumerable<Entry>>(this.BuildRequest("entries", Method.Get));
+            string countString = count >= 0 ? $"{(!string.IsNullOrEmpty(query) ? '&'.ToString() : string.Empty)}count={count}" : string.Empty;
+            string queryString = string.Empty;
+            if (!string.IsNullOrEmpty(query) || count >= 0) 
+            {
+                queryString = $"?{query}{countString}";
+            }
+
+            RestResponse<IEnumerable<Entry>> response = await _client.ExecuteAsync<IEnumerable<Entry>>(this.BuildRequest($"entries{queryString}", Method.Get));
             return (response.IsSuccessful && response.Data != null) ? response.Data : new List<Entry>();
         }
 
