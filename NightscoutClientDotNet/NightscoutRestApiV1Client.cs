@@ -3,6 +3,8 @@ using NightscoutClientDotNet.Models;
 using NightscoutClientDotNet.Models.Enums;
 using RestSharp;
 using System.Collections.Generic;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace NightscoutClientDotNet
@@ -24,7 +26,7 @@ namespace NightscoutClientDotNet
             _authenticationType = authenticationType;
             _apiKey = apiKey;
 
-            _client= new RestClient($"{baseAddress}{_API_PATH}");
+            _client= new RestClient(new RestClientOptions { BaseUrl = new System.Uri($"{baseAddress}{_API_PATH}"), RemoteCertificateValidationCallback = RemoteCertificateValidationCallback});
         }
 
 
@@ -41,6 +43,10 @@ namespace NightscoutClientDotNet
             return (response.IsSuccessful && response.Data != null) ? response.Data : new List<Entry>();
         }
 
+        private bool RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
 
         private RestRequest BuildRequest(string resource, RestSharp.Method method, object? body = null)
         {
